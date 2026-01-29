@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HabitTracker PRO</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(-45deg, #0f172a, #1e293b, #312e81, #1e1b4b);
+            background-size: 400% 400%;
+            animation: gradientMove 15s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        @keyframes gradientMove {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .habit-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+            width: 95%;
+            max-width: 700px;
+            padding: 2rem;
+            color: white;
+        }
+
+        .table {
+            color: white !important;
+            --bs-table-bg: transparent !important;
+            --bs-table-hover-bg: rgba(255, 255, 255, 0.08);
+            border-collapse: separate;
+            border-spacing: 0 8px;
+        }
+
+        .table thead th {
+            background: transparent;
+            color: rgba(255, 255, 255, 0.7) !important;
+            border: none;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+        }
+
+        .table tbody tr {
+            background: rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .table tbody tr:hover {
+            transform: scale(1.01);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .fw-medium {
+            color: #ffffff !important;
+        }
+
+        .table td {
+            border: none;
+            padding: 15px;
+        }
+
+        .table td:first-child {
+            border-radius: 12px 0 0 12px;
+        }
+
+        .table td:last-child {
+            border-radius: 0 12px 12px 0;
+        }
+
+        .concluido {
+            text-decoration: line-through;
+            color: #10b981 !important;
+            opacity: 0.5;
+        }
+
+        .form-control {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white !important;
+            border-radius: 15px;
+        }
+
+        .btn-primary {
+            background: #6366f1;
+            border: none;
+            border-radius: 15px !important;
+            font-weight: 600;
+        }
+
+
+        .semana-container {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 20px 0;
+
+        }
+
+        .dia-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.75rem;
+            color: white;
+        }
+
+        .tique {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+
+        .tique.ok {
+            background: #10b981;
+            border-color: #10b981;
+            color: white;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+        }
+
+        .progress-container {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 20px;
+            margin-top: 20px;
+        }
+
+        .progress {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, #6366f1, #a855f7);
+        }
+
+
+        @media only screen and (max-width: 600px) {
+
+         
+            html {
+                font-size: 14px;
+            }
+
+            body .container {
+                padding: 10px !important;
+            }
+
+            body .habit-card {
+                padding: 1rem !important;
+                width: 98% !important;
+                margin: 10px auto !important;
+            }
+
+            
+            body h2 {
+                font-size: 1.4rem !important;
+                margin-bottom: 1rem !important;
+            }
+
+    
+            body .tique {
+                width: 32px !important;
+                height: 32px !important;
+                font-size: 0.9rem !important;
+            }
+
+            body .dia-item span {
+                font-size: 0.75rem !important;
+            }
+
+            
+            body .table td {
+                padding: 10px 5px !important;
+                font-size: 1rem !important;
+                
+            }
+
+            body .btn-sm {
+                padding: 6px 10px !important;
+              
+                font-size: 0.8rem !important;
+                height: 32px !important;
+                display: inline-flex !important;
+               
+                align-items: center;
+                width: auto !important;
+                
+                margin-right: 2px;
+            }
+
+            
+            body .form-control {
+                height: 40px !important;
+                font-size: 0.9rem !important;
+            }
+
+            body .btn-primary {
+                height: 40px !important;
+                font-size: 0.9rem !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="habit-card">
+        <h2 class="text-center mb-4 fw-bold">🚀 <span style="color: #818cf8;">Habit</span>Tracker PRO</h2>
+
+        <form th:action="@{/adicionar}" method="POST" class="d-flex mb-4 gap-2">
+            <input type="text" name="nome" class="form-control" placeholder="Adicionar novo hábito..." required>
+            <button type="submit" class="btn btn-primary px-4">Adicionar</button>
+        </form>
+
+
+        <div class="semana-container mb-4">
+            <div class="d-flex justify-content-between px-2">
+                <div class="dia-item">
+                    <span>Seg</span>
+                    <div class="tique"
+                        th:classappend="${(diasConcluidos != null and #lists.contains(diasConcluidos, 'MONDAY') ? 'ok ' : '') + (diaHoje == 'MONDAY' ? 'hoje' : '')}">
+                        <span th:if="${diasConcluidos != null and #lists.contains(diasConcluidos, 'MONDAY')}">✓</span>
+                    </div>
+                </div>
+
+                <div class="dia-item">
+                    <span>Ter</span>
+                    <div class="tique"
+                        th:classappend="${(diasConcluidos != null and #lists.contains(diasConcluidos, 'TUESDAY') ? 'ok ' : '') + (diaHoje == 'TUESDAY' ? 'hoje' : '')}">
+                        <span th:if="${diasConcluidos != null and #lists.contains(diasConcluidos, 'TUESDAY')}">✓</span>
+                    </div>
+                </div>
+
+                <div class="dia-item">
+                    <span>Qua</span>
+                    <div class="tique"
+                        th:classappend="${(diasConcluidos != null and #lists.contains(diasConcluidos, 'WEDNESDAY') ? 'ok ' : '') + (diaHoje == 'WEDNESDAY' ? 'hoje' : '')}">
+                        <span
+                            th:if="${diasConcluidos != null and #lists.contains(diasConcluidos, 'WEDNESDAY')}">✓</span>
+                    </div>
+                </div>
+
+                <div class="dia-item">
+                    <span>Qui</span>
+                    <div class="tique"
+                        th:classappend="${(diasConcluidos != null and #lists.contains(diasConcluidos, 'THURSDAY') ? 'ok ' : '') + (diaHoje == 'THURSDAY' ? 'hoje' : '')}">
+                        <span th:if="${diasConcluidos != null and #lists.contains(diasConcluidos, 'THURSDAY')}">✓</span>
+                    </div>
+                </div>
+
+                <div class="dia-item">
+                    <span>Sex</span>
+                    <div class="tique"
+                        th:classappend="${(diasConcluidos != null and #lists.contains(diasConcluidos, 'FRIDAY') ? 'ok ' : '') + (diaHoje == 'FRIDAY' ? 'hoje' : '')}">
+                        <span th:if="${diasConcluidos != null and #lists.contains(diasConcluidos, 'FRIDAY')}">✓</span>
+                    </div>
+                </div>
+
+                <div class="dia-item">
+                    <span>Sáb</span>
+                    <div class="tique"
+                        th:classappend="${(diasConcluidos != null and #lists.contains(diasConcluidos, 'SATURDAY') ? 'ok ' : '') + (diaHoje == 'SATURDAY' ? 'hoje' : '')}">
+                        <span th:if="${diasConcluidos != null and #lists.contains(diasConcluidos, 'SATURDAY')}">✓</span>
+                    </div>
+                </div>
+
+                <div class="dia-item">
+                    <span>Dom</span>
+                    <div class="tique"
+                        th:classappend="${(diasConcluidos != null and #lists.contains(diasConcluidos, 'SUNDAY') ? 'ok ' : '') + (diaHoje == 'SUNDAY' ? 'hoje' : '')}">
+                        <span th:if="${diasConcluidos != null and #lists.contains(diasConcluidos, 'SUNDAY')}">✓</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th>Hábito</th>
+                    <th class="text-center">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="habito : ${habitos}">
+                    <td th:text="${habito.nome}" th:classappend="${habito.concluido} ? 'concluido' : ''"
+                        class="fw-medium" style="color: white !important;"></td>
+                    <td class="text-center">
+                        <div class="btn-group">
+                            <a th:href="@{/concluir/{id}(id=${habito.id})}"
+                                th:class="${habito.concluido} ? 'btn btn-sm btn-outline-warning' : 'btn btn-sm btn-success'"
+                                th:text="${habito.concluido} ? 'Refazer' : 'Concluir'"></a>
+
+                            <button class="btn btn-sm btn-info text-white" th:data-id="${habito.id}"
+                                th:data-nome="${habito.nome}"
+                                onclick="let n = prompt('Editar hábito:', this.getAttribute('data-nome')); if(n) location.href='/editar?id=' + this.getAttribute('data-id') + '&novoNome=' + encodeURIComponent(n)">
+                                Editar
+                            </button>
+
+                            <a th:href="@{/deletar/{id}(id=${habito.id})}" class="btn btn-sm btn-danger"
+                                onclick="return confirm('Excluir?')">Excluir</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="progress-container text-center">
+            <h6 class="mb-2 small text-uppercase fw-bold" style="color: rgba(255,255,255,0.5)">Progresso Diário: <span
+                    th:text="${progresso} + '%'"></span></h6>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" th:style="'width: ' + ${progresso} + '%'"></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
