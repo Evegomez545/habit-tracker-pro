@@ -101,7 +101,7 @@
             background: #ffffff !important;
             border: 1px solid rgba(255, 255, 255, 0.1);
             color: #212529 !important;
-            
+
             border-radius: 15px;
         }
 
@@ -247,6 +247,13 @@
 <body>
     <div class="habit-card">
         <h2 class="text-center mb-4 fw-bold">🚀 <span style="color: #818cf8;">Habit</span>Tracker PRO</h2>
+        
+        <div class="text-center mb-4">
+            <a href="/progresso"
+                style="color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.85rem; border: 1px solid rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 20px; background: rgba(255,255,255,0.05);">
+                📊 Ver Estatísticas Detalhadas
+            </a>
+        </div>
 
         <form th:action="@{/adicionar}" method="POST" class="d-flex mb-4 gap-2">
             <input type="text" name="nome" class="form-control" placeholder="Adicionar novo hábito..." required>
