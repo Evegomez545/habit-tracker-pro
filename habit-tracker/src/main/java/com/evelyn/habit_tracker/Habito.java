@@ -6,17 +6,17 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@NoArgsConstructor // Isso cria o construtor vazio que o Hibernate exige
+@NoArgsConstructor 
 public class Habito {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Isso faz o ID ser 1, 2, 3... automático
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private Long id;
     
     private String nome;
     private boolean concluido;
 
-    // Construtor manual para facilitar o Controller
+    
     public Habito(String nome) {
         this.nome = nome;
         this.concluido = false;
