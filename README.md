@@ -14,7 +14,7 @@ Armazenamento: LocalStorage para persistência de dados sem necessidade de backe
 
 
 ![habitTracker](https://github.com/user-attachments/assets/c1b2891c-b676-4f78-8adb-d4391772edda)
-![habitTracker](https://github.com/user-attachments/assets/c1b2891c-b676-4f78-8adb-d4391772edda)
+
 
 
 ✨ Funcionalidades
