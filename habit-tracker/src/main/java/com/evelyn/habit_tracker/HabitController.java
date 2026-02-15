@@ -87,31 +87,34 @@ public class HabitController {
         repository.saveAll(todos);
     }
 
-    @GetMapping("/progresso")
-    public String exibirProgresso(Model model) {
-        List<HistoricoDiario> historico = historicoRepo.findAll();
+    @GetMapping("/")
+    public String index(Model model) {
+        // 1. Busca a lista de hábitos
+        List<Habito> habitos = repository.findAll();
 
-     
-        model.addAttribute("valorSegunda", buscarPorcentagem(historico, "MONDAY"));
-        model.addAttribute("valorTerca", buscarPorcentagem(historico, "TUESDAY"));
-        model.addAttribute("valorQuarta", buscarPorcentagem(historico, "WEDNESDAY"));
-        model.addAttribute("valorQuinta", buscarPorcentagem(historico, "THURSDAY"));
-        model.addAttribute("valorSexta", buscarPorcentagem(historico, "FRIDAY"));
-        model.addAttribute("valorSabado", buscarPorcentagem(historico, "SATURDAY"));
-        model.addAttribute("valorDomingo", buscarPorcentagem(historico, "SUNDAY"));
+        
+        if (habitos.isEmpty()) {
+            model.addAttribute("habitos", habitos);
+            model.addAttribute("progresso", 0);
+            return "index";
+        }
 
-        model.addAttribute("totalVitorias", historico.stream().filter(h -> h.getPorcentagem() == 100.0).count());
+        
+        long concluidos = habitos.stream().filter(Habito::isConcluido).count();
+        double porcentagem = (double) concluidos / habitos.size() * 100;
 
-        return "progresso";
+        model.addAttribute("habitos", habitos);
+        model.addAttribute("progresso", (int) porcentagem);
+
+        return "index";
     }
 
-   
     private double buscarPorcentagem(List<HistoricoDiario> lista, String dia) {
         return lista.stream()
                 .filter(h -> h.getDiaSemana().equalsIgnoreCase(dia))
                 .map(HistoricoDiario::getPorcentagem)
                 .findFirst()
-                .orElse(0.0); 
+                .orElse(0.0);
     }
 
 }
