@@ -57,6 +57,11 @@ public class HabitController {
         repository.save(novoHabito);
         return "redirect:/";
     }
+    @GetMapping("/login")
+        public String login() {
+        return "login"; 
+    }
+
 
     @GetMapping("/concluir/{id}")
     public String alternarStatus(@PathVariable Long id) {
