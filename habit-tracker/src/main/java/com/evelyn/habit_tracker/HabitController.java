@@ -19,7 +19,10 @@ public class HabitController {
     @Autowired
     private HistoricoRepository historicoRepo;
 
-    
+  
+    @Autowired
+    private UsuarioRepository usuarioRepository; 
+
     @GetMapping("/")
     public String listarHabitos(Model model) {
         List<Habito> habitos = repository.findAll();
@@ -50,10 +53,25 @@ public class HabitController {
         return "index";
     }
 
-    
     @GetMapping("/login")
     public String login() {
         return "login"; 
+    }
+
+    
+    @GetMapping("/cadastro")
+    public String mostrarCadastro() {
+        return "cadastro";
+    }
+
+    @PostMapping("/cadastro")
+    public String cadastrarUsuario(@RequestParam String nome, @RequestParam String email, @RequestParam String senha) {
+        Usuario novo = new Usuario();
+        novo.setNome(nome);
+        novo.setEmail(email);
+        novo.setSenha("{noop}" + senha); 
+        usuarioRepository.save(novo);
+        return "redirect:/login?sucesso";
     }
 
     @PostMapping("/adicionar")
