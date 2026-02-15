@@ -3,9 +3,11 @@ package com.evelyn.habit_tracker;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
+@EnableScheduling
 public class HabitTrackerApplication {
 
 	public static void main(String[] args) {
@@ -15,7 +17,6 @@ public class HabitTrackerApplication {
 	@Bean
 	CommandLineRunner init(UsuarioRepository repository) {
 		return args -> {
-			// Cria o usuário se o e-mail ainda não existir no banco
 			if (repository.findByEmail("admin@teste.com").isEmpty()) {
 				Usuario user = new Usuario();
 				user.setNome("Evelyn");
@@ -26,4 +27,4 @@ public class HabitTrackerApplication {
 			}
 		};
 	}
-}
+} 
