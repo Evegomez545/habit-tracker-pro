@@ -19,6 +19,7 @@ public class HabitController {
     @Autowired
     private HistoricoRepository historicoRepo;
 
+    
     @GetMapping("/")
     public String listarHabitos(Model model) {
         List<Habito> habitos = repository.findAll();
@@ -49,6 +50,12 @@ public class HabitController {
         return "index";
     }
 
+    
+    @GetMapping("/login")
+    public String login() {
+        return "login"; 
+    }
+
     @PostMapping("/adicionar")
     public String adicionarHabito(@RequestParam("nome") String nome) {
         Habito novoHabito = new Habito();
@@ -57,11 +64,6 @@ public class HabitController {
         repository.save(novoHabito);
         return "redirect:/";
     }
-    @GetMapping("/login")
-        public String login() {
-        return "login"; 
-    }
-
 
     @GetMapping("/concluir/{id}")
     public String alternarStatus(@PathVariable Long id) {
@@ -91,35 +93,4 @@ public class HabitController {
         todos.forEach(h -> h.setConcluido(false));
         repository.saveAll(todos);
     }
-
-    @GetMapping("/")
-    public String index(Model model) {
-        // 1. Busca a lista de hábitos
-        List<Habito> habitos = repository.findAll();
-
-        
-        if (habitos.isEmpty()) {
-            model.addAttribute("habitos", habitos);
-            model.addAttribute("progresso", 0);
-            return "index";
-        }
-
-        
-        long concluidos = habitos.stream().filter(Habito::isConcluido).count();
-        double porcentagem = (double) concluidos / habitos.size() * 100;
-
-        model.addAttribute("habitos", habitos);
-        model.addAttribute("progresso", (int) porcentagem);
-
-        return "index";
-    }
-
-    private double buscarPorcentagem(List<HistoricoDiario> lista, String dia) {
-        return lista.stream()
-                .filter(h -> h.getDiaSemana().equalsIgnoreCase(dia))
-                .map(HistoricoDiario::getPorcentagem)
-                .findFirst()
-                .orElse(0.0);
-    }
-
 }
