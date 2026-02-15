@@ -80,21 +80,21 @@
     <script th:inline="javascript">
         /*<![CDATA[*/
 
+       
         const progressoSemanas = [
-            [[${ valorSegunda != null ? valorSegunda : 0}]],
-        [[${ valorTerca != null ? valorTerca : 0}]],
-            [[${ valorQuarta != null ? valorQuarta : 0}]],
-            [[${ valorQuinta != null ? valorQuinta : 0}]],
-            [[${ valorSexta != null ? valorSexta : 0}]],
-            [[${ valorSabado != null ? valorSabado : 0}]],
-            [[${ valorDomingo != null ? valorDomingo : 0}]]
-    ];
-
+            /*[[${valorSegunda != null ? valorSegunda : 0}]]*/ 0,
+            /*[[${valorTerca != null ? valorTerca : 0}]]*/ 0,
+            /*[[${valorQuarta != null ? valorQuarta : 0}]]*/ 0,
+            /*[[${valorQuinta != null ? valorQuinta : 0}]]*/ 0,
+            /*[[${valorSexta != null ? valorSexta : 0}]]*/ 0,
+            /*[[${valorSabado != null ? valorSabado : 0}]]*/ 0,
+            /*[[${valorDomingo != null ? valorDomingo : 0}]]*/ 0
+        ];
 
         const soma = progressoSemanas.reduce((a, b) => a + b, 0);
         const mediaSemanaAtual = soma / 7;
 
-
+        // Gráfico Semanal
         new Chart(document.getElementById('chartSemanal'), {
             type: 'bar',
             data: {
@@ -115,7 +115,7 @@
             }
         });
 
-
+        // Gráfico Mensal
         new Chart(document.getElementById('chartMensal'), {
             type: 'line',
             data: {
@@ -134,8 +134,6 @@
                 maintainAspectRatio: false,
                 scales: { y: { beginAtZero: true, max: 100 } }
             }
-
-            
         });
         /*]]>*/
     </script>
