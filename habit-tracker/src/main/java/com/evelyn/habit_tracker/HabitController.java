@@ -19,18 +19,25 @@ public class HabitController {
     @Autowired
     private HistoricoRepository historicoRepo;
 
-  
     @Autowired
-    private UsuarioRepository usuarioRepository; 
+    private UsuarioRepository usuarioRepository;
 
     @GetMapping("/")
     public String listarHabitos(Model model) {
-        List<Habito> habitos = repository.findAll();
+        // 1. Pega o e-mail do usuário que acabou de fazer login
+        String email = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication()
+                .getName();
+
+        // 2. Busca no banco apenas os hábitos que pertencem a esse e-mail
+        List<Habito> habitos = repository.findByUsuarioEmail(email);
+
         String diaHoje = LocalDate.now().getDayOfWeek().name();
 
         long concluidosCount = habitos.stream().filter(Habito::isConcluido).count();
         double progressoReal = habitos.isEmpty() ? 0 : ((double) concluidosCount / habitos.size()) * 100;
 
+        // 3. O histórico também precisa ser do usuário (opcional agora, mas ideal
+        // futuramente)
         HistoricoDiario registroDeHoje = historicoRepo.findByDiaSemana(diaHoje)
                 .orElse(new HistoricoDiario(diaHoje, LocalDate.now()));
 
@@ -55,10 +62,9 @@ public class HabitController {
 
     @GetMapping("/login")
     public String login() {
-        return "login"; 
+        return "login";
     }
 
-    
     @GetMapping("/cadastro")
     public String mostrarCadastro() {
         return "cadastro";
@@ -69,16 +75,21 @@ public class HabitController {
         Usuario novo = new Usuario();
         novo.setNome(nome);
         novo.setEmail(email);
-        novo.setSenha("{noop}" + senha); 
+        novo.setSenha("{noop}" + senha);
         usuarioRepository.save(novo);
         return "redirect:/login?sucesso";
     }
 
     @PostMapping("/adicionar")
     public String adicionarHabito(@RequestParam("nome") String nome) {
+        
+        String email = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getName();       
+        Usuario usuario = usuarioRepository.findByEmail(email).orElseThrow();
         Habito novoHabito = new Habito();
         novoHabito.setNome(nome);
         novoHabito.setConcluido(false);
+        novoHabito.setUsuario(usuario); 
+
         repository.save(novoHabito);
         return "redirect:/";
     }

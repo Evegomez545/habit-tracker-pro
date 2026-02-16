@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Entity
 @Data
 @NoArgsConstructor 
@@ -21,4 +22,11 @@ public class Habito {
         this.nome = nome;
         this.concluido = false;
     }
+    @ManyToOne
+    @jakarta.persistence.JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+
+    
+    public Usuario getUsuario() { return usuario; }
+    public void setUsuario(Usuario usuario) { this.usuario = usuario; }
 }
