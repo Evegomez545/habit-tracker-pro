@@ -82,13 +82,14 @@ public class HabitController {
 
     @PostMapping("/adicionar")
     public String adicionarHabito(@RequestParam("nome") String nome) {
-        
-        String email = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getName();       
+
+        String email = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication()
+                .getName();
         Usuario usuario = usuarioRepository.findByEmail(email).orElseThrow();
         Habito novoHabito = new Habito();
         novoHabito.setNome(nome);
         novoHabito.setConcluido(false);
-        novoHabito.setUsuario(usuario); 
+        novoHabito.setUsuario(usuario);
 
         repository.save(novoHabito);
         return "redirect:/";
@@ -122,4 +123,22 @@ public class HabitController {
         todos.forEach(h -> h.setConcluido(false));
         repository.saveAll(todos);
     }
+
+    @GetMapping("/progresso")
+    public String verProgresso(Model model) {
+   
+    String email = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getName();
+        List<Habito> habitos = repository.findByUsuarioEmail(email);
+    
+    
+        List<HistoricoDiario> historico = historicoRepo.findAll();
+
+        
+        long concluidosCount = habitos.stream().filter(Habito::isConcluido).count();
+        int progresso = habitos.isEmpty() ? 0 : (int) (((double) concluidosCount / habitos.size()) * 100);
+
+        model.addAttribute("historico", historico);
+        model.addAttribute("progresso", progresso); 
+    
+        return "progresso"; 
 }
