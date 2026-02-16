@@ -141,4 +141,5 @@ public class HabitController {
         model.addAttribute("progresso", progresso); 
     
         return "progresso"; 
+    }
 }
