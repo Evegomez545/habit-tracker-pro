@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - HabitTracker PRO</title>
     <style>
         body {
@@ -14,17 +16,24 @@
             height: 100vh;
             margin: 0;
         }
+
         .login-card {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(15px);
-            padding: 40px;
+            padding: 30px;          
             border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            width: 350px;
+            width: 90%;           
+            max-width: 350px;           
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
             text-align: center;
         }
-        h2 { margin-bottom: 30px; color: #6366f1; }
+
+        h2 {
+            margin-bottom: 30px;
+            color: #6366f1;
+        }
+
         input {
             width: 100%;
             padding: 12px;
@@ -35,6 +44,7 @@
             color: white;
             box-sizing: border-box;
         }
+
         button {
             width: 100%;
             padding: 12px;
@@ -47,19 +57,33 @@
             cursor: pointer;
             transition: 0.3s;
         }
-        button:hover { transform: scale(1.02); }
-        
-        
+
+        button:hover {
+            transform: scale(1.02);
+        }
+
+
         .alert {
             padding: 10px;
             border-radius: 8px;
             margin-bottom: 15px;
             font-size: 14px;
         }
-        .alert-danger { background: rgba(255, 77, 77, 0.2); border: 1px solid #ff4d4d; color: #ff4d4d; }
-        .alert-success { background: rgba(74, 222, 128, 0.2); border: 1px solid #4ade80; color: #4ade80; }
+
+        .alert-danger {
+            background: rgba(255, 77, 77, 0.2);
+            border: 1px solid #ff4d4d;
+            color: #ff4d4d;
+        }
+
+        .alert-success {
+            background: rgba(74, 222, 128, 0.2);
+            border: 1px solid #4ade80;
+            color: #4ade80;
+        }
     </style>
 </head>
+
 <body>
     <div class="login-card">
         <h2>🚀 HabitTracker PRO</h2>
@@ -79,7 +103,7 @@
         </form>
 
         <div class="mt-3 text-center">
-            <p style="color: white; margin-top: 20px;">Não tem uma conta? 
+            <p style="color: white; margin-top: 20px;">Não tem uma conta?
                 <a th:href="@{/cadastro}" style="color: #a78bfa; text-decoration: none; font-weight: bold;">
                     Cadastre-se aqui
                 </a>
@@ -87,4 +111,5 @@
         </div>
     </div>
 </body>
+
 </html>
